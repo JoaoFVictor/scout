@@ -49,7 +49,7 @@ class SyncIndexSettingsCommand extends Command
         }
 
         try {
-            $indexes = (array) $this->config->get('scout.'.$driver.'.index-settings', []);
+            $indexes = (array) $this->config->get('scout.engine.'.$driver.'.index-settings', []);
 
             if (count($indexes)) {
                 foreach ($indexes as $name => $settings) {
