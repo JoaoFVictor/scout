@@ -31,7 +31,7 @@ class SyncIndexSettingsCommand extends Command
      */
     protected string $description = 'Sync your configured index settings with your search engine (Meilisearch)';
 
-    public function __construct(private readonly ContainerInterface $container)
+    public function __construct(private readonly ContainerInterface $container, private readonly EngineFactory $engine)
     {
         parent::__construct();
         $this->config = $container->get(ConfigInterface::class);
@@ -40,11 +40,11 @@ class SyncIndexSettingsCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(EngineFactory $engine)
+    public function handle()
     {
         $driver = $this->config->get('scout.engine');
 
-        if (! method_exists($engine, 'updateIndexSettings')) {
+        if (! method_exists($this->engine, 'updateIndexSettings')) {
             return $this->error('The "'.$driver.'" engine does not support updating index settings.');
         }
 
@@ -69,7 +69,7 @@ class SyncIndexSettingsCommand extends Command
                         $settings['filterableAttributes'][] = '__soft_deleted';
                     }
 
-                    $engine->updateIndexSettings($indexName = $this->indexName($name), $settings);
+                    $this->engine->updateIndexSettings($indexName = $this->indexName($name), $settings);
 
                     $this->info('Settings for the ['.$indexName.'] index synced successfully.');
                 }
