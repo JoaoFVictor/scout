@@ -17,7 +17,7 @@ use Hyperf\Scout\Engine\Engine;
 use Hyperf\Scout\Engine\MeilisearchEngine;
 use Psr\Container\ContainerInterface;
 
-class ElasticsearchProvider implements ProviderInterface
+class MeilisearchProvider implements ProviderInterface
 {
     public function __construct(private ContainerInterface $container)
     {
@@ -26,7 +26,7 @@ class ElasticsearchProvider implements ProviderInterface
     public function make(string $name): Engine
     {
         $config = $this->container->get(ConfigInterface::class);
-        $client = new Client($config->get("scout.engine.{$name}.hosts"), $config->get("scout.engine.{$name}.key"));
+        $client = new Client($config->get("scout.engine.{$name}.host"), $config->get("scout.engine.{$name}.key"));
 
         return new MeilisearchEngine($client, $config->get("scout.soft_delete"));
     }
