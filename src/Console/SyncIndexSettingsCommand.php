@@ -20,16 +20,16 @@ use Psr\Container\ContainerInterface;
 
 class SyncIndexSettingsCommand extends Command
 {
-    private $config;
+    private ConfigInterface $config;
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'scout:sync-index-settings';
+    protected ?string $signature = 'scout:sync-index-settings';
 
     /**
      * The console command description.
      */
-    protected $description = 'Sync your configured index settings with your search engine (Meilisearch)';
+    protected string $description = 'Sync your configured index settings with your search engine (Meilisearch)';
 
     public function __construct(private readonly ContainerInterface $container)
     {
