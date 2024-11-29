@@ -15,6 +15,7 @@ namespace Hyperf\Scout\Provider;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Scout\Engine\Engine;
 use Hyperf\Scout\Engine\MeilisearchEngine;
+use Meilisearch\Client;
 use Psr\Container\ContainerInterface;
 
 class MeilisearchProvider implements ProviderInterface
