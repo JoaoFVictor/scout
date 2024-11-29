@@ -14,6 +14,7 @@ namespace Hyperf\Scout;
 
 use Hyperf\Scout\Console\FlushCommand;
 use Hyperf\Scout\Console\ImportCommand;
+use Hyperf\Scout\Console\SyncIndexSettingsCommand;
 use Hyperf\Scout\Engine\Engine;
 
 class ConfigProvider
@@ -27,6 +28,7 @@ class ConfigProvider
             'commands' => [
                 ImportCommand::class,
                 FlushCommand::class,
+                SyncIndexSettingsCommand::class,
             ],
             'publish' => [
                 [
