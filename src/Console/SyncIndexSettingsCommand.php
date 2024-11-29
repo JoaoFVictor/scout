@@ -15,6 +15,7 @@ namespace Hyperf\Scout\Console;
 use Exception;
 use Hyperf\Command\Command;
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\Scout\EngineFactory;
 use Hyperf\Utils\Str;
 use Psr\Container\ContainerInterface;
 
