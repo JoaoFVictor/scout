@@ -9,25 +9,26 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-use Hyperf\Scout\Provider\ElasticsearchProvider;
+use Hyperf\Scout\Provider\MeilisearchProvider;
 
 use function Hyperf\Support\env;
 
 return [
-    'default' => env('SCOUT_ENGINE', 'elasticsearch'),
+    'default' => env('SCOUT_ENGINE', 'meilisearch'),
     'chunk' => [
         'searchable' => 500,
         'unsearchable' => 500,
     ],
     'prefix' => env('SCOUT_PREFIX', ''),
-    'soft_delete' => false,
+    'soft_delete' => true,
     'concurrency' => 100,
     'engine' => [
-        'elasticsearch' => [
-            'driver' => ElasticsearchProvider::class,
+        'meilisearch' => [
+            'driver' => MeilisearchProvider::class,
             'index' => null,
-            'hosts' => [
-                env('ELASTICSEARCH_HOST', 'http://127.0.0.1:9200'),
+            'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
+            'key' => env('MEILISEARCH_KEY'),
+            'index-settings' => [
             ],
         ],
     ],

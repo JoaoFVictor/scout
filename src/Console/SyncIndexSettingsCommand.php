@@ -15,13 +15,17 @@ namespace Hyperf\Scout\Console;
 use Exception;
 use Hyperf\Command\Command;
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\Scout\Engine\Engine;
 use Hyperf\Scout\EngineFactory;
 use Hyperf\Utils\Str;
 use Psr\Container\ContainerInterface;
 
 class SyncIndexSettingsCommand extends Command
 {
-    private ConfigInterface $config;
+    private readonly ConfigInterface $config;
+
+    private readonly Engine $engine;
+
     /**
      * The name and signature of the console command.
      */
@@ -32,9 +36,10 @@ class SyncIndexSettingsCommand extends Command
      */
     protected string $description = 'Sync your configured index settings with your search engine (Meilisearch)';
 
-    public function __construct(private readonly ContainerInterface $container, private readonly EngineFactory $engine)
+    public function __construct(private readonly ContainerInterface $container, private readonly EngineFactory $engineFactory)
     {
         parent::__construct();
+        $this->engine = $engineFactory($container);
         $this->config = $container->get(ConfigInterface::class);
     }
 
@@ -43,7 +48,7 @@ class SyncIndexSettingsCommand extends Command
      */
     public function handle()
     {
-        $driver = $this->config->get('scout.engine');
+        $driver = $this->config->get('scout.default');
 
         if (! method_exists($this->engine, 'updateIndexSettings')) {
             return $this->error('The "'.$driver.'" engine does not support updating index settings.');
@@ -91,7 +96,7 @@ class SyncIndexSettingsCommand extends Command
     protected function indexName($name)
     {
         if (class_exists($name)) {
-            return (new $name)->indexableAs();
+            return (new $name)->searchableAs();
         }
 
         $prefix = $this->config->get('scout.prefix');
